@@ -1,43 +1,55 @@
--- Insert data into Products table
-INSERT INTO Products (ProductID, ProductName, ProductDescription, Category, Price, SupplierID)
-VALUES
-    ('550e8400-e29b-41d4-a716-446655440001', 'Product1', 'Description1', 'Category1', 20.5, '8a3e5d56-7b70-4a6f-a9c0-8b0c0bb1c063'),
-    ('9d8a6ad0-4ca6-49a3-83d2-096b01abdc91', 'Product2', 'Description2', 'Category2', 30.75, 'baa74302-7c5e-4174-8364-9d885e8d3ef8'),
-    ('8cfc45f0-5e58-44f6-96e2-4fb6b3d79d29', 'Product3', 'Description3', 'Category1', 15.0, '8a3e5d56-7b70-4a6f-a9c0-8b0c0bb1c063');
-
--- Insert data into Warehouses table
-INSERT INTO Warehouses (WarehouseID, WarehouseName, Location, Capacity, ContactInformation)
-VALUES
-    ('b8b17a8d-64c0-49a2-9c56-4c6c3c1142fe', 'Warehouse1', 'Location1', 1000, 'Contact1'),
-    ('e8266422-cc0d-42a9-9d82-dbdcc3fb7b1d', 'Warehouse2', 'Location2', 1500, 'Contact2');
-
--- Insert data into Suppliers table
+-- Insert Suppliers
 INSERT INTO Suppliers (SupplierID, SupplierName, ContactInformation, ProductCategoriesSupplied)
 VALUES
-    ('8a3e5d56-7b70-4a6f-a9c0-8b0c0bb1c063', 'Supplier1', 'SupplierContact1', ARRAY['Category1', 'Category3']),
-    ('baa74302-7c5e-4174-8364-9d885e8d3ef8', 'Supplier2', 'SupplierContact2', ARRAY['Category2']);
+    ('00000000-0000-0000-0001-000000000001', 'ElectroTech Suppliers', '123-456-7890', ARRAY['Electronics']),
+    ('00000000-0000-0000-0002-000000000002', 'Fashion Trends Supplier', '987-654-3210', ARRAY['Clothing and Fashion']),
+    ('00000000-0000-0000-0003-000000000003', 'BookWorld Publishers', '555-123-4567', ARRAY['Books']);
 
--- Insert data into Orders table
+-- Insert Warehouses
+INSERT INTO Warehouses (WarehouseID, WarehouseName, Location, Capacity, ContactInformation)
+VALUES
+    ('00000000-0000-0000-0004-000000000004', 'Tech Haven Warehouse', 'Tech City', 1000, '111-222-3333'),
+    ('00000000-0000-0000-0005-000000000005', 'Fashion Depot Warehouse', 'Fashion District', 800, '444-555-6666'),
+    ('00000000-0000-0000-0006-000000000006', 'BookWorld Storage', 'Book Town', 500, '777-888-9999');
+
+-- Insert Products
+INSERT INTO Products (ProductID, ProductName, ProductDescription, Category, Price, SupplierID, WarehouseID)
+VALUES
+    ('00000000-0000-0000-0007-000000000007', 'Smartphone X', 'Latest smartphone model', 'Electronics', 799.99, '00000000-0000-0000-0001-000000000001', '00000000-0000-0000-0004-000000000004'),
+    ('00000000-0000-0000-0008-000000000008', 'Laptop Pro', 'High-performance laptop', 'Electronics', 1299.99, '00000000-0000-0000-0001-000000000001', '00000000-0000-0000-0004-000000000004'),
+    ('00000000-0000-0000-0009-000000000009', 'Fashionable Jacket', 'Warm and stylish jacket', 'Clothing and Fashion', 79.99, '00000000-0000-0000-0002-000000000002', '00000000-0000-0000-0005-000000000005'),
+    ('00000000-0000-0000-0010-000000000010', 'Bestseller Novel', 'Compelling story', 'Books', 19.99, '00000000-0000-0000-0003-000000000003', '00000000-0000-0000-0006-000000000006');
+    
+
+-- Insert Orders
 INSERT INTO Orders (OrderID, OrderDate, CustomerName, OrderStatus, TotalOrderAmount, ShippingAddress)
 VALUES
-    ('fd8e7ed2-8cfd-4cd8-836f-774d3557d26b', '2023-11-25', 'Customer1', 'Shipped', 100.0, 'Address1'),
-    ('48f67e3b-981d-4e2b-b373-303f3423e1d0', '2023-11-26', 'Customer2', 'Processing', 75.5, 'Address2');
+    ('00000000-0000-0000-0011-000000000011', '2023-11-01', 'John Gomez', 'Pending', 799.99, '123 Main St, Cityville'),
+    ('00000000-0000-0000-0012-000000000012', '2023-11-02', 'Emily Johnson', 'Shipped', 1299.99, '456 Oak St, Townsville'),
+    ('00000000-0000-0000-0013-000000000013', '2023-11-03', 'Michael Smith', 'Delivered', 79.99, '789 Pine St, Villageton'),
+    ('00000000-0000-0000-0014-000000000014', '2023-11-04', 'Sophia Davis', 'Pending', 19.99, '987 Elm St, Boroughburg');
 
--- Insert data into OrderDetails table
-INSERT INTO OrderDetails (OrderDetailID, OrderID, ProductID, QuantityOrdered, UnitPrice, TotalLineItemAmount)
+-- Insert OrderDetails
+INSERT INTO OrderDetails (OrderDetailID, OrderID, ProductID, QuantityOrdered, UnitPrice, TotalLineItemAmount, SupplierID)
 VALUES
-    ('37298d7c-1cc8-4e9e-a4d4-0fb2a814322e', 'fd8e7ed2-8cfd-4cd8-836f-774d3557d26b', '550e8400-e29b-41d4-a716-446655440001', 2, 20.5, 41.0),
-    ('f6e9a78f-047e-43c4-a7f0-57ef98e56a8f', 'fd8e7ed2-8cfd-4cd8-836f-774d3557d26b', '9d8a6ad0-4ca6-49a3-83d2-096b01abdc91', 1, 30.75, 30.75),
-    ('a243f1db-1e5d-4ec2-b45a-1d9e3bbff801', '48f67e3b-981d-4e2b-b373-303f3423e1d0', '8cfc45f0-5e58-44f6-96e2-4fb6b3d79d29', 3, 15.0, 45.0);
+    ('00000000-0000-0000-0015-000000000015', '00000000-0000-0000-0011-000000000011', '00000000-0000-0000-0007-000000000007', 2, 399.99, 799.99, '00000000-0000-0000-0001-000000000001'),
+    ('00000000-0000-0000-0016-000000000016', '00000000-0000-0000-0012-000000000012', '00000000-0000-0000-0008-000000000008', 1, 1299.99, 1299.99, '00000000-0000-0000-0001-000000000001'),
+    ('00000000-0000-0000-0017-000000000017', '00000000-0000-0000-0013-000000000013', '00000000-0000-0000-0009-000000000009', 1, 79.99, 79.99, '00000000-0000-0000-0002-000000000002'),
+    ('00000000-0000-0000-0018-000000000018', '00000000-0000-0000-0014-000000000014', '00000000-0000-0000-0010-000000000010', 3, 19.99, 59.97, '00000000-0000-0000-0003-000000000003');
 
--- Insert data into Shipments table
+
+-- Insert Shipments
 INSERT INTO Shipments (ShipmentID, OrderID, WarehouseID, ShipmentDate, ShipmentStatus, TrackingInformation)
 VALUES
-    ('8c43f5f0-b0cf-4d19-9e02-8f9fc993cbdb', 'fd8e7ed2-8cfd-4cd8-836f-774d3557d26b', 'b8b17a8d-64c0-49a2-9c56-4c6c3c1142fe', '2023-11-25', 'Shipped', 'TrackingInfo1'),
-    ('dd9e732b-7d9b-4ac8-b997-2c5fb736e0c5', '48f67e3b-981d-4e2b-b373-303f3423e1d0', 'e8266422-cc0d-42a9-9d82-dbdcc3fb7b1d', '2023-11-26', 'Processing', 'TrackingInfo2');
+    ('00000000-0000-0000-0019-000000000019', '00000000-0000-0000-0011-000000000011', '00000000-0000-0000-0004-000000000004', '2023-11-02', 'Shipped', 'ABC123'),
+    ('00000000-0000-0000-0020-000000000020', '00000000-0000-0000-0012-000000000012', '00000000-0000-0000-0004-000000000004', '2023-11-03', 'In Transit', 'XYZ456'),
+    ('00000000-0000-0000-0021-000000000021', '00000000-0000-0000-0013-000000000013', '00000000-0000-0000-0005-000000000005', '2023-11-04', 'Delivered', '123XYZ'),
+    ('00000000-0000-0000-0022-000000000022', '00000000-0000-0000-0014-000000000014', '00000000-0000-0000-0006-000000000006', '2023-11-05', 'Processing', 'AEDSR');
 
--- Insert data into InventoryLevels table
+-- Insert InventoryLevels
 INSERT INTO InventoryLevels (WarehouseID, ProductID, QuantityOnHand, MinimumStockLevel, MaximumStockLevel, ReorderPoint, LastRestockDate)
 VALUES
-    ('b8b17a8d-64c0-49a2-9c56-4c6c3c1142fe', '550e8400-e29b-41d4-a716-446655440001', 50, 10, 100, 20, '2023-11-24'),
-    ('e8266422-cc0d-42a9-9d82-dbdcc3fb7b1d', '9d8a6ad0-4ca6-49a3-83d2-096b01abdc91', 75, 15, 120, 25, '2023-11-23');
+    ('00000000-0000-0000-0004-000000000004', '00000000-0000-0000-0007-000000000007', 50, 20, 100, 30, '2023-10-31'),
+    ('00000000-0000-0000-0004-000000000004', '00000000-0000-0000-0008-000000000008', 30, 15, 80, 25, '2023-10-31'),
+    ('00000000-0000-0000-0005-000000000005', '00000000-0000-0000-0009-000000000009', 15, 5, 50, 10, '2023-10-31'),
+    ('00000000-0000-0000-0006-000000000006', '00000000-0000-0000-0010-000000000010', 100, 30, 150, 50, '2023-10-31');

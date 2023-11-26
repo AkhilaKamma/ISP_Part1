@@ -8,10 +8,6 @@ def create_database(dbname):
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     cursor = conn.cursor()
     
-    #Code to drop database
-#     drop_db_query = sql.SQL("DROP DATABASE IF EXISTS {};").format(sql.Identifier(dbname))
-#     cursor.execute(drop_db_query)
-    
     #Code to create database
     sql_create_database = f"CREATE DATABASE {dbname};"
     cursor.execute(sql_create_database)
@@ -39,10 +35,29 @@ def execute_insert_script(conn, script_path):
             cursor.execute(sql_script)
     conn.commit()
     print("Data has been inserted successfully!")
+    
+def retrieve_data(conn):
+    
+    cursor = conn.cursor()
+
+    # Select data from the Products table
+    cursor.execute(f"SELECT * FROM Products;")
+    products_data = cursor.fetchall()
+    print("Data from Products table:")
+    for row in products_data:
+        print(row)
+
+    # Select data from the warehouses table
+    cursor.execute(f"SELECT * FROM Warehouses;")
+    warehouse_data = cursor.fetchall()
+    print("\nData from warehouses table:")
+    for row in warehouse_data:
+        print(row)
+        
 
 if __name__ == '__main__':
     # Specify the name of the database
-    dbname = "supply_chain"
+    dbname = "mykeyspace"
 
     # Create the database
     create_database(dbname)
@@ -61,6 +76,9 @@ if __name__ == '__main__':
 
     # Execute the data insertion script
     execute_insert_script(conn, insert_data_file_path)
+    
+    #Retrieve the data 
+    retrieve_data(conn)
 
     # Close the database connection
     conn.close()
